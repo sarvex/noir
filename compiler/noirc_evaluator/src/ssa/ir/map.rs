@@ -295,3 +295,12 @@ impl<T> Default for AtomicCounter<T> {
         Self { next: Default::default(), _marker: Default::default() }
     }
 }
+
+impl<T> Clone for AtomicCounter<T> {
+    fn clone(&self) -> Self {
+        Self {
+            next: AtomicU32::new(self.next.load(Ordering::Relaxed)),
+            _marker: std::marker::PhantomData,
+        }
+    }
+}
